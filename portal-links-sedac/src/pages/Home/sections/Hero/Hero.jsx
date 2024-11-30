@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, CardContent, Typography, CardActionArea, Box } from '@mui/material';
+import { Paper, CardContent, Typography, CardActionArea, Box, CssBaseline } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/system';
 import image from '../../../../assets/11.jpg';
@@ -15,8 +15,15 @@ import imageDecision from '../../../../assets/20.jpg';
 import imageCVO from '../../../../assets/21.jpg';
 import imageChat from '../../../../assets/22.jpg';
 
+// Estilo global para o fundo escuro
+const GlobalContainer = styled(Box)(() => ({
+    height: '100vh',
+    backgroundColor: '#2d2c2c', // Cor de fundo escura
+    color: '#fff', // Cor do texto para contraste
+    padding: '0 16px',
+}));
 
-// Componentes estilizados
+// Container principal
 const HeroContainer = styled(Box)({
     flexGrow: 1,
     padding: '32px',
@@ -53,12 +60,11 @@ const StyledPaper = styled(Paper)(({ backgroundImage }) => ({
     },
 }));
 
-// Título com animação
-const Title = styled(Typography)({
+const Title = styled(Typography)(() => ({
     fontFamily: '"Poppins", sans-serif',
     fontWeight: 600,
     fontSize: '2.5rem',
-    color: '#333',
+    color: '#fff', // Cor do título para contraste
     textAlign: 'center',
     marginBottom: '20px',
     opacity: 0,
@@ -78,7 +84,13 @@ const Title = styled(Typography)({
         transform: 'scale(1.1)',
         transition: 'transform 0.3s ease, color 0.3s ease',
     },
-});
+    // Remover o contorno (underline piscando) ao clicar ou focar
+    '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+    },
+}));
+
 
 // Links
 const links = [
@@ -94,24 +106,26 @@ const links = [
     { title: 'Datafaz', path: '/contact', backgroundImage: image },
     { title: 'OpenManage', path: '/contact', backgroundImage: imageCVO },
     { title: 'Ditec Chat', path: '/contact', backgroundImage: imageChat },
-
 ];
 
 const Hero = () => (
-    <HeroContainer>
-        <Title variant="h3">Bem-vindo ao Portal de Links da Sedac</Title>
-        <LinksGrid>
-            {links.map((link, index) => (
-                <StyledPaper key={index} elevation={3} backgroundImage={link.backgroundImage}>
-                    <CardActionArea component={Link} to={link.path}>
-                        <CardContent>
-                            <Typography variant="h6">{link.title}</Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </StyledPaper>
-            ))}
-        </LinksGrid>
-    </HeroContainer>
+    <GlobalContainer>
+        <CssBaseline /> {/* Garantir que os estilos padrões sejam aplicados corretamente */}
+        <HeroContainer>
+            <Title variant="h3">Bem-vindo ao Portal de Links da Sedac</Title>
+            <LinksGrid>
+                {links.map((link, index) => (
+                    <StyledPaper key={index} elevation={3} backgroundImage={link.backgroundImage}>
+                        <CardActionArea component={Link} to={link.path}>
+                            <CardContent>
+                                <Typography variant="h6">{link.title}</Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </StyledPaper>
+                ))}
+            </LinksGrid>
+        </HeroContainer>
+    </GlobalContainer>
 );
 
 export default Hero;
